@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>讀書進度格</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +27,10 @@ h1:active,.eyebrow:active{opacity:.6}
 .tab{flex:0 0 auto;font-family:var(--sans);font-size:13px;padding:6px 13px;border:1px solid var(--line);
   background:#fff;border-radius:999px;color:var(--graphite);cursor:pointer;white-space:nowrap}
 .tab.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:500}
+.tabmenu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:8px 2px 0}
+.tabmenu:empty{display:none}
+.tm-lab{font-size:12px;color:var(--graphite);font-family:var(--mono)}
+.tiny.danger{color:var(--red);border-color:#EBC5C0;background:#FDF2F0}
 .tab.util{border-style:dashed;font-family:var(--mono);padding:6px 11px}
 .sec-h{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--graphite);margin:24px 0 8px;display:flex;justify-content:space-between;align-items:center}
 .card{background:var(--card);border:1px solid var(--line);margin-bottom:12px}
@@ -47,6 +51,45 @@ details.panel>summary::-webkit-details-marker{display:none}
 details.panel>summary::after{content:"＋";font-family:var(--mono);color:var(--graphite)}
 details.panel[open]>summary::after{content:"−"}
 .panel-body{padding:0 13px 15px;border-top:1px dashed var(--line)}
+.modal{position:fixed;inset:0;background:rgba(20,48,74,.45);display:none;align-items:center;
+  justify-content:center;padding:18px;z-index:99}
+.modal.on{display:flex}
+.mbox{background:#fff;border:1px solid var(--ink);width:100%;max-width:370px;padding:16px;
+  box-shadow:0 12px 34px rgba(20,48,74,.25)}
+.mtitle{font-weight:700;font-size:15.5px;line-height:1.5}
+.mmsg{font-size:12.5px;color:var(--graphite);white-space:pre-line;line-height:1.65;margin-top:6px}
+.mbox input,.mbox textarea{width:100%;font-size:16px;padding:9px 10px;border:1px solid var(--line);
+  border-radius:4px;margin-top:11px;font-family:var(--sans);color:var(--ink)}
+.mbox textarea{height:170px;font-family:var(--mono);font-size:12px;line-height:1.5}
+.mbtn{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+.mbtn button{font-family:var(--sans);font-size:14px;padding:9px 16px;border-radius:4px;
+  border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.mbtn button.pri{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:500}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--ink);color:#fff;
+  font-size:13px;padding:10px 18px;border-radius:999px;z-index:100;opacity:0;pointer-events:none;
+  transition:opacity .18s;max-width:88%;text-align:center}
+.toast.on{opacity:1}
+.g{font-size:13.5px;line-height:1.7}
+.g h4{font-size:13.5px;margin:16px 0 4px;color:var(--ink);
+  border-left:3px solid var(--mark);padding-left:7px}
+.g p{margin:4px 0}
+.g ul{margin:4px 0;padding-left:18px}
+.g li{margin:2px 0}
+.g code{font-family:var(--mono);font-size:12px;background:var(--soft);border:1px solid var(--line);
+  padding:1px 4px;border-radius:3px}
+.g-lead{background:var(--mark-soft);padding:9px 11px;margin:12px 0 4px!important;font-size:13px}
+.g-note{background:var(--soft);border-left:3px solid var(--line);padding:7px 10px;
+  font-size:12.5px;color:var(--graphite);margin:8px 0!important}
+.g-tab{width:100%;border-collapse:collapse;margin:6px 0}
+.g-tab td{border-bottom:1px dotted var(--line);padding:5px 4px;font-size:12.5px;vertical-align:top}
+.g-tab td:first-child{width:96px;white-space:nowrap}
+.g-ex{font-size:11.5px}
+.g-ex th{background:var(--soft);border-bottom:1px solid var(--line);padding:5px 4px;
+  font-family:var(--mono);font-size:10px;color:var(--graphite);text-align:left;font-weight:400}
+.g-ex td{width:auto!important;white-space:normal!important;padding:5px 4px}
+.g-ex td:first-child{width:38px!important;font-weight:700;white-space:nowrap!important}
+.g-ex code{font-size:10.5px;display:inline-block;margin-top:2px;padding:1px 3px}
+#guide>summary{background:var(--mark-soft)}
 
 /* 總覽 */
 .summary{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
@@ -98,6 +141,33 @@ table.matrix td.filled{background:#FEFCEF}
 .wb.act .track span{background:var(--mark)}
 .wb em{font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--graphite);width:56px;flex:0 0 auto}
 
+/* 今日待辦 */
+.td-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  padding-bottom:7px;border-bottom:2px solid var(--ink);margin-bottom:2px}
+.td-h b{font-size:15px}
+.td-h span{font-family:var(--mono);font-size:11px;color:var(--graphite)}
+.td-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:9px;align-items:center;
+  padding:7px 0;border-bottom:1px dotted var(--line)}
+.td-row:last-child{border-bottom:none}
+.td-row.late{background:#FDF2F0;margin:0 -13px;padding:7px 13px}
+.td-t{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.td-m{color:var(--graphite);font-size:11.5px}
+.td-d{font-family:var(--mono);font-size:10px;color:var(--graphite)}
+.td-row.late .td-d{color:var(--red);font-weight:600}
+.lv1{color:#B8860B}.lv2{color:var(--red)}
+/* 曲線 */
+.curve{width:100%;height:118px;display:block;margin-top:6px}
+.curve .ax{stroke:var(--line);stroke-width:1}
+.curve .now{stroke:#E0C325;stroke-width:6;opacity:.35}
+.curve .axt{font-family:var(--mono);font-size:8px;fill:var(--graphite)}
+.curve .cp{fill:none;stroke:var(--graphite);stroke-width:1.6;stroke-dasharray:4 3}
+.curve .ca{fill:none;stroke:var(--ink);stroke-width:2.4}
+.curve .cd{fill:var(--mark);stroke:var(--ink);stroke-width:1}
+.lg{display:flex;gap:12px;font-family:var(--mono);font-size:10px;color:var(--graphite);margin-top:4px}
+.lg i{display:inline-block;width:12px;height:0;border-top:2px solid var(--graphite);vertical-align:3px;margin-right:4px}
+.lg i.p{border-top-style:dashed}.lg i.a{border-top-color:var(--ink);border-top-width:3px}
+.lg i.n{border-top:6px solid #E0C325;opacity:.5}
+.rr.cur{background:var(--mark-soft)}
 /* 分析報告 */
 .verdict{font-size:13px;line-height:1.55;padding-bottom:8px}
 .verdict.sub{font-size:12px;color:var(--graphite);padding-bottom:6px}
@@ -128,12 +198,16 @@ details.sub>summary::-webkit-details-marker{display:none}
 .mat-h .mn{font-weight:600;font-size:13px;flex:1}
 .mat-h .c{font-family:var(--mono);font-size:11px;color:var(--graphite)}
 .rows{margin-top:1px}
-.rowhead,.crow{display:grid;grid-template-columns:19px minmax(0,1fr) 40px 76px 76px;gap:4px;align-items:center}
+.rowhead,.crow{display:grid;grid-template-columns:19px minmax(0,1fr) 21px 36px 64px 64px;gap:4px;align-items:center}
+.lvb{border:1px solid var(--line);background:#fff;border-radius:3px;padding:2px 0;cursor:pointer;
+  font-size:10px;line-height:1.5;color:#C3CDD8}
+.lvb.lv1{color:#B8860B;border-color:#E6D08A;background:#FFFBEF}
+.lvb.lv2{color:var(--red);border-color:#EBC5C0;background:#FDF2F0;font-weight:700}
 .rowhead{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;color:#9AA9B7;padding:0 0 3px}
 .rowhead span{text-align:center}
 .rowhead span:nth-child(2){text-align:left;padding-left:5px}
 .crow{padding:2px 0;border-bottom:1px dotted var(--line);overflow:hidden}
-.rowhead.edit,.rows.edit .crow{grid-template-columns:19px minmax(0,1fr) 36px 64px 64px 22px}
+.rowhead.edit,.rows.edit .crow{grid-template-columns:19px minmax(0,1fr) 21px 34px 60px 60px 22px}
 .crow>*{min-width:0}
 .dw{position:relative;min-width:0;display:block}
 .dclr{position:absolute;right:0;top:0;height:100%;width:16px;border:none;padding:0;cursor:pointer;z-index:2;
@@ -160,8 +234,8 @@ input.dt{padding:2px 3px;font-size:16px;font-family:var(--mono);border:1px solid
   transform:scale(.61);transform-origin:left center}
 input.dt.act{background:#FFFDF2}
 @media (max-width:360px){
-  .rowhead,.crow{grid-template-columns:18px minmax(0,1fr) 34px 62px 62px;gap:3px}
-  .rowhead.edit,.rows.edit .crow{grid-template-columns:18px minmax(0,1fr) 32px 58px 58px 20px}
+  .rowhead,.crow{grid-template-columns:18px minmax(0,1fr) 20px 32px 58px 58px;gap:3px}
+  .rowhead.edit,.rows.edit .crow{grid-template-columns:18px minmax(0,1fr) 19px 30px 54px 54px 20px}
 }
 .chips{display:flex;flex-wrap:wrap}
 .chip{display:inline-flex;align-items:stretch;border:1px solid var(--line);background:#fff;margin:0 5px 5px 0;overflow:hidden}
@@ -175,7 +249,29 @@ font-family:var(--mono);font-size:10.5px;color:var(--graphite);text-align:center
 .ct{border:none;background:none;font-family:var(--sans);font-size:13.5px;color:var(--ink);padding:7px 10px;cursor:pointer;white-space:nowrap}
 .chip.done .ct{text-decoration:line-through}
 .empty{color:var(--graphite);font-size:13px;padding:6px 0}
-@media print{body{background:#fff}.noprint{display:none!important}}
+@media print{
+  body{background:#fff;overflow-x:visible}
+  .noprint,.mv,.tiny,.addcol,.delrow,.dclr{display:none!important}
+  .wrap{max-width:100%;padding:0}
+  h1{font-size:18pt}
+  .card,details.sub{break-inside:avoid;border-color:#999}
+  /* 總表：攤平、不裁切 */
+  .mx{overflow:visible;border:1px solid #999}
+  table.matrix{width:100%;table-layout:fixed;border-collapse:collapse}
+  table.matrix th,table.matrix td{border:1px solid #999;min-width:0;word-break:break-all}
+  table.matrix thead th,table.matrix th.sx,table.matrix tbody th{position:static;box-shadow:none;background:#F0F2F4}
+  table.matrix td input,table.matrix td input.cname{transform:none;width:100%;font-size:9pt;padding:3px 4px}
+  table.matrix td input.cname{font-weight:700}
+  .cnt{display:none!important}
+  /* 明細列：取消縮放，用真實字級 */
+  .crow,.rowhead{grid-template-columns:16px minmax(0,1fr) 20px 34px 74px 74px!important}
+  input.cn,input.dt,.wk{transform:none!important;width:100%!important;font-size:9pt!important}
+  .box{width:12px;height:12px}
+  /* 列印範圍 */
+  body.print-mx .s-detail,body.print-mx .s-extra,body.print-mx .s-rep,
+  body.print-detail .s-mx,body.print-detail .s-extra,body.print-detail .s-rep,
+  body.print-rep .s-mx,body.print-rep .s-detail,body.print-rep .s-extra{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -183,8 +279,91 @@ font-family:var(--mono);font-size:10.5px;color:var(--graphite);text-align:center
   <div class="eyebrow" id="tag" role="button" tabindex="0"></div>
   <h1 id="ttl" role="button" tabindex="0"></h1>
   <div class="tabs noprint" id="tabs"></div>
+  <div class="tabmenu noprint" id="tabmenu"></div>
+
+  <details class="card panel noprint" id="guide">
+    <summary><span>📖 使用說明（第一次用先看這個）</span></summary>
+    <div class="panel-body g">
+      <p class="g-lead">這是一張「讀書範圍的進度控管表」。先把要讀的東西列出來，再排到每一週，做完打勾，系統幫你算跟得上跟不上。</p>
+
+      <h4>① 設定週次</h4>
+      <p>打開「週次設定」，填 <b>開始日（週一）</b> 和 <b>考試日</b>，週數會自動算好。<br>
+      這裡的 W1、W2⋯就是後面排進度用的週次。</p>
+
+      <h4>② 填總表</h4>
+      <p>總表是「科目 × 教材」的矩陣，橫向可以滑。每一格分上下兩層：<br>
+      <b>上層</b>＝教材名稱（各科可以不一樣，例如國文用「悍將」、理化用「翰林講義」）<br>
+      <b>下層</b>＝這次要讀的總範圍<br>
+      右邊 <b>＋</b> 可以加教材欄。</p>
+
+      <h4>③ 範圍怎麼寫（重要）</h4>
+      <table class="g-tab">
+        <tr><td><code>1-2</code></td><td>一之二，<b>一格</b>（純數字加橫槓＝章節）</td></tr>
+        <tr><td><code>1~5</code></td><td>拆成 1、2、3、4、5 共五格</td></tr>
+        <tr><td><code>1-1~1-4</code></td><td>拆成 1-1、1-2、1-3、1-4</td></tr>
+        <tr><td><code>L1-L6</code></td><td>拆成 L1⋯L6（有文字前綴的橫槓會拆）</td></tr>
+        <tr><td><code>第1回-第6回</code></td><td>拆成 第1回⋯第6回</td></tr>
+        <tr><td><code>語文常識,自學選文</code></td><td>逗號分隔，各自一格</td></tr>
+      </table>
+      <p class="g-note">口訣：<b>要拆開就用波浪號 ~，橫槓當章節名稱。</b></p>
+
+      <h4>④ 排進度、打勾</h4>
+      <p>填完總表，點格子下方的「<b>0/6 格 ↓ 維護日期</b>」跳到明細區，每個範圍一列：</p>
+      <ul>
+        <li><b>週</b>：指派到第幾週，選了會自動帶入該週週一當預計日</li>
+        <li><b>預計</b>：計畫哪天做完</li>
+        <li><b>完成</b>：實際哪天做完</li>
+        <li>左邊<b>方框</b>打勾＝完成，會自動蓋上今天的日期</li>
+        <li><b>分週</b>：一次把整個教材平均攤到指定週次，例如輸入 <code>1-5</code></li>
+        <li>日期填錯，點日期右邊浮出的 <b>✕</b> 清掉；整批清用「清預計」「清完成」</li>
+        <li>想刪掉某一格範圍，按「<b>✎ 刪格</b>」，每列右邊會出現紅色 ×</li>
+      </ul>
+
+      <h4>⑤ 今天要做什麼</h4>
+      <p>頁面最上面的「<b>今天</b>」區塊會自動列出<b>今天到期</b>和<b>已經逾期</b>的格子，直接在那裡打勾就好，不用滑到下面找。逾期的會標紅底和天數。</p>
+      <p>右邊的「<b>難</b>」欄點一下會循環：<code>·</code> 普通 → <code>△</code> 偏難 → <code>▲</code> 很難。標了之後，分析報告會告訴你「偏難的格子平均遲幾天」，方便下次排計畫時多留時間。</p>
+
+      <h4>⑥ 看進度</h4>
+      <p><b>週進度</b>：斜線＝那一週預計做幾格，黃色＝實際做完幾格。<br>
+      <b>分析報告</b>：各科的執行率、逾期幾格、平均拖幾天，最上面一句話告訴你照目前速度來不來得及。</p>
+
+      <h4>⑦ 多次考試</h4>
+      <p>標題下方是頁籤。按 <b>＋ 新頁籤</b> 開下一次段考，會問要不要沿用現有的科目與教材名稱（範圍和進度不會帶過去）。<br>
+      按 <b>⋯</b> 可以改名、複製、刪除。名稱自己取，例如 <code>8上第1次</code>、<code>9上模擬考</code>。</p>
+
+      <h4>⑧ 資料與備份</h4>
+      <ul>
+        <li>資料存在<b>自己手機的瀏覽器</b>，沒有帳號也不會上傳，每個人各存各的</li>
+        <li>Safari 若超過 7 天沒開會清掉資料，建議<b>加入主畫面</b>，並定期按「<b>下載備份</b>」（一次備份所有頁籤）</li>
+        <li>換手機或誤刪，用「還原備份」選檔案救回</li>
+        <li>做壞了按「<b>↶ 復原上一步</b>」，可連退 30 步</li>
+      </ul>
+
+      <h4>⑨ 行事曆與列印</h4>
+      <p><b>匯出行事曆</b>：把所有未完成的預計日做成 .ics 檔，匯入 iPhone 或 Google 日曆，前一天晚上 8 點自動提醒。<br>
+      <b>列印</b>：可選印總表／印明細／印報告／印全部，手機上選「列印」再存成 PDF。</p>
+
+      <h4>⑩ 一份填好的範例</h4>
+      <p class="g-note">以下是<b>示範用</b>的填法參考，不會自動帶入。你要照自己孩子的學校進度填。</p>
+      <table class="g-tab g-ex">
+        <tr><th>科目</th><th>教材 1</th><th>教材 2</th><th>教材 3</th></tr>
+        <tr><td>國文</td><td>課本<br><code>1~3,語文常識,自學選文</code></td><td>習作<br><code>1~3</code></td><td>悍將<br><code>1~6</code></td></tr>
+        <tr><td>英文</td><td>課本<br><code>U1~U3</code></td><td>習作<br><code>U1~U3</code></td><td>單字<br><code>L1~L6</code></td></tr>
+        <tr><td>數學</td><td>課本<br><code>1-1,1-2,2-1,2-2</code></td><td>習作<br><code>1~4</code></td><td>講義<br><code>第1回-第8回</code></td></tr>
+        <tr><td>理化</td><td>課本<br><code>1-1~1-4,2-1~2-3</code></td><td>講義<br><code>Ch1,Ch2</code></td><td>測驗卷<br><code>1~6</code></td></tr>
+        <tr><td>生物</td><td>課本<br><code>3-1~3-3</code></td><td>講義<br><code>1~3</code></td><td></td></tr>
+        <tr><td>歷史</td><td>課本<br><code>1-1,1-2,2-1</code></td><td>講義<br><code>1~4</code></td><td></td></tr>
+        <tr><td>地理</td><td>課本<br><code>1-1,1-2,2-1</code></td><td>講義<br><code>1~4</code></td><td></td></tr>
+        <tr><td>公民</td><td>課本<br><code>1-1,1-2,2-1</code></td><td>講義<br><code>1~4</code></td><td></td></tr>
+      </table>
+      <p>排法建議：課本第一輪先讀完（前 60% 的週次），習作和講義跟在課本後面一週，測驗卷留最後兩週，考前一週不排新進度、只做錯題。</p>
+
+      <p class="g-note">小提醒：一格代表一個可以「一次做完」的單位。太大（整本）會看不出進度，太小（每一題）會維護到崩潰，一格抓 30～60 分鐘的量最好用。</p>
+    </div>
+  </details>
 
   <div class="card pad" id="ov"></div>
+  <div class="card pad s-extra" id="today"></div>
 
   <details class="card panel noprint" id="setup">
     <summary>週次設定</summary>
@@ -209,28 +388,37 @@ font-family:var(--mono);font-size:10.5px;color:var(--graphite);text-align:center
     </div>
   </details>
 
-  <div class="sec-h"><span>總表 · 科目 × 教材</span><span class="mono">橫向可滑</span></div>
-  <div class="mx" id="mx"></div>
+  <div class="sec-h s-mx"><span>總表 · 科目 × 教材</span><span class="mono">橫向可滑</span></div>
+  <div class="mx s-mx" id="mx"></div>
   <p class="note noprint">每格上排寫教材名稱（各科可不同），下排寫總範圍，逗號分隔；<b>要拆開就用波浪號 <span class="mono">~</span></b>：<span class="mono">1~5</span>→1,2,3,4,5；<span class="mono">1-1~1-4</span>→1-1,1-2,1-3,1-4。<b>純數字的橫槓當章節，不拆</b>：<span class="mono">1-2</span> 就是「一之二」一格。有文字前綴的橫槓才會拆：<span class="mono">L1-L6</span>、<span class="mono">第1回-第6回</span>。離開輸入框就會自動切成下面可勾選的小格子，已完成與已排週次會保留。</p>
 
-  <div class="sec-h"><span>週進度 · 預計 vs 實際</span><span class="mono" id="wkhint"></span></div>
-  <div class="card pad" id="weeks"></div>
+  <div class="sec-h s-extra"><span>週進度 · 預計 vs 實際</span><span class="mono" id="wkhint"></span></div>
+  <div class="card pad s-extra" id="weeks"></div>
+  <div class="card pad s-extra" id="curve"></div>
 
-  <div class="sec-h"><span>分析報告 · 各科執行狀況</span><button class="tiny noprint" id="copyrep">複製報告</button></div>
-  <div class="card pad" id="rep"></div>
+  <div class="sec-h s-rep"><span>分析報告 · 各科執行狀況</span><button class="tiny noprint" id="copyrep">複製報告</button></div>
+  <div class="card pad s-rep" id="rep"></div>
+  <div class="card pad s-rep" id="cmp"></div>
 
-  <div class="sec-h"><span>排週次 · 打勾</span></div>
-  <div id="subs"></div>
+  <div class="sec-h s-detail"><span>排週次 · 打勾</span></div>
+  <div id="subs" class="s-detail"></div>
 
   <div class="btnrow noprint">
     <button class="act ghost small" id="backup">下載備份</button>
     <button class="act ghost small" id="restore">還原備份</button>
     <input type="file" id="rfile" accept=".json,application/json" style="display:none">
+    <button class="act ghost small" id="ics">匯出行事曆</button>
     <button class="act ghost small" id="copy">複製成文字</button>
-    <button class="act ghost small" id="print">列印／存 PDF</button>
+    <button class="act ghost small" data-print="mx">印總表</button>
+    <button class="act ghost small" data-print="detail">印明細</button>
+    <button class="act ghost small" data-print="rep">印報告</button>
+    <button class="act ghost small" data-print="all">印全部</button>
   </div>
-  <p class="note noprint">資料存在這台裝置的瀏覽器，不會上傳，朋友各存各的。建議每週按一次「下載備份」存到檔案 App；Safari 若超過 7 天沒開會清資料，把網站加入主畫面可大幅降低風險。</p>
+  <p class="note noprint">不會的先看最上面的「📖 使用說明」。資料存在這台裝置的瀏覽器，不會上傳，朋友各存各的。建議每週按一次「下載備份」存到檔案 App；Safari 若超過 7 天沒開會清資料，把網站加入主畫面可大幅降低風險。</p>
 </div>
+
+<div class="modal" id="modal"></div>
+<div class="toast" id="toast"></div>
 
 <script>
 const KEY='exam-progress-v3';let mem=null;
@@ -242,9 +430,57 @@ const addD=(s,n)=>{const d=D(s);d.setDate(d.getDate()+n);return iso(d)};
 const today=()=>iso(new Date());
 const diff=(a,b)=>Math.round((D(b)-D(a))/86400000);
 const md=s=>`${+s.slice(5,7)}/${+s.slice(8,10)}`;
+const WK=['日','一','二','三','四','五','六'];
+const wdOf=s=>WK[D(s).getDay()];
 const monday=()=>{const d=new Date();const k=(d.getDay()+6)%7;d.setDate(d.getDate()-k);return iso(d)};
 let _u=Date.now();const uid=()=>'k'+(_u++).toString(36);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ── 對話框：不依賴瀏覽器原生彈窗，在任何嵌入環境都能用 ── */
+function ensure(id,cls){
+  let e=document.getElementById(id);
+  if(!e){e=document.createElement('div');e.id=id;e.className=cls;document.body.appendChild(e)}
+  return e;
+}
+const MODAL=ensure('modal','modal');
+function dlg(o){
+  return new Promise(res=>{
+    const hasIn=o.input!==false,hasTa=!!o.textarea;
+    MODAL.innerHTML=`<div class="mbox">
+      <div class="mtitle">${esc(o.title||'')}</div>
+      ${o.msg?`<div class="mmsg">${esc(o.msg)}</div>`:''}
+      ${hasTa?`<textarea id="mip" readonly>${esc(o.val||'')}</textarea>`:
+        (hasIn?`<input id="mip" type="text" value="${esc(o.val||'')}" placeholder="${esc(o.ph||'')}">`:'')}
+      <div class="mbtn">${o.solo?'':`<button data-r="0">${esc(o.cancel||'取消')}</button>`}
+        <button class="pri" data-r="1">${esc(o.ok||'確定')}</button></div></div>`;
+    MODAL.classList.add('on');
+    const ip=document.getElementById('mip');
+    if(ip&&!hasTa)setTimeout(()=>{try{ip.focus();ip.select()}catch(e){}},60);
+    const done=v=>{MODAL.classList.remove('on');MODAL.innerHTML='';MODAL.onclick=null;MODAL.onkeydown=null;res(v)};
+    MODAL.onclick=e=>{
+      if(e.target===MODAL)return done(null);
+      const b=e.target.closest('button[data-r]');if(!b)return;
+      if(b.dataset.r!=='1')return done(null);
+      done(hasIn&&!hasTa?(ip?ip.value:''):true);
+    };
+    MODAL.onkeydown=e=>{
+      if(e.key==='Enter'&&hasIn&&!hasTa){e.preventDefault();done(ip.value)}
+      else if(e.key==='Escape')done(null);
+    };
+  });
+}
+const ask=(title,val,msg,ph)=>dlg({title,val,msg,ph});
+const yesno=(title,msg,okTxt)=>dlg({title,msg,input:false,ok:okTxt||'確定'}).then(v=>v===true);
+const say=(title,msg)=>dlg({title,msg,input:false,solo:true,ok:'知道了'});
+const showText=(title,val)=>dlg({title,val,textarea:true,solo:true,ok:'關閉'});
+let _tt;
+function toast(m){const t=ensure('toast','toast');t.textContent=m;t.classList.add('on');
+  clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),1900)}
+function copyText(t,label){
+  if(navigator.clipboard&&navigator.clipboard.writeText)
+    navigator.clipboard.writeText(t).then(()=>toast(label||'已複製'),()=>showText('手動複製（長按選取）',t));
+  else showText('手動複製（長按選取）',t);
+}
 
 const ORDER=['國文','英文','數學','理化','生物','歷史','地理','公民'];
 const GROUP={國文:'主科',英文:'主科',數學:'主科',理化:'自然',生物:'自然',歷史:'社會',地理:'社會',公民:'社會'};
@@ -280,6 +516,10 @@ const colName=(s,mi)=>{const c=s.cols[S.mats[mi].id];return (c&&c.name&&c.name.t
 const wStart=i=>addD(S.start,(i-1)*7), wEnd=i=>addD(S.start,(i-1)*7+6);
 const weekOf=d=>{const n=Math.floor(diff(S.start,d)/7)+1;return n>=1&&n<=S.nw?n:0};
 const curWeek=()=>weekOf(today());
+const weekClamp=d=>Math.min(S.nw,Math.max(1,Math.floor(diff(S.start,d)/7)+1));  // 區間外的完成日夾到頭尾週
+const locCells=()=>{const a=[];S.subs.forEach((s,si)=>S.mats.forEach((m,mi)=>{
+  const col=s.cols[m.id];if(!col)return;
+  col.cells.forEach((c,ci)=>a.push({c,si,mi,ci,s,mat:colName(s,mi)}))}));return a};
 const allCells=()=>{const a=[];S.subs.forEach(s=>S.mats.forEach(m=>(s.cols[m.id]?.cells||[]).forEach(c=>a.push(c))));return a};
 
 function expand(str){
@@ -293,7 +533,7 @@ function expand(str){
     if(sy&&sy!==sx)return null;      // 後綴不同不展開
     if(needAffix&&!px&&!sx)return null;  // 純數字加橫槓＝章節寫法（1-2），不展開
     const s=+x[2],e=+y[2];
-    if(e<=s||e-s>39)return null;     // 倒序或超過 40 格不展開（保護 3-1 這種章節寫法）
+    if(e<=s||e-s>119)return null;    // 倒序或超過 120 格不展開（保護 3-1 這種章節寫法）
     const r=[];for(let i=s;i<=e;i++)r.push(px+i+sx);return r;
   };
   (str||'').split(/[,，、;；\n]+/).map(x=>x.trim()).filter(Boolean).forEach(tok=>{
@@ -306,9 +546,43 @@ function expand(str){
 }
 /* 由總表文字重建格子，保留週次與完成狀態 */
 function sync(col){
-  const old={};(col.cells||[]).forEach(c=>{old[c.t]=c});
-  col.cells=expand(col.raw).map(t=>old[t]||{t,w:0,done:false,at:null});
+  const old={};(col.cells||[]).forEach(c=>{(old[c.t]=old[c.t]||[]).push(c)});
+  col.cells=expand(col.raw).map(t=>{                // 同名各自對應一格，不共用狀態
+    const q=old[t];
+    return (q&&q.length)?q.shift():{t,w:0,done:false,at:null,due:''};
+  });
 }
+
+/* ── 今日待辦 ── */
+const LVS=['','△','▲'],LVN=['普通','偏難','很難'];
+function renderToday(){
+  const T=today();
+  const items=locCells().filter(x=>!x.c.done&&x.c.due&&x.c.due<=T)
+    .sort((a,b)=>a.c.due<b.c.due?-1:(a.c.due>b.c.due?1:0));
+  const soon=locCells().filter(x=>!x.c.done&&x.c.due&&x.c.due>T&&diff(T,x.c.due)<=2).length;
+  const box=document.getElementById('today');
+  if(!items.length){
+    box.innerHTML=`<div class="td-h"><b>今天</b><span>${md(T)}（${wdOf(T)}）</span></div>
+      <p class="empty">目前沒有到期的進度${soon?`，未來兩天有 ${soon} 格`:''}。</p>`;return;
+  }
+  const over=items.filter(x=>x.c.due<T).length;
+  const show=items.slice(0,12);
+  box.innerHTML=`<div class="td-h"><b>今天要做 ${items.length} 格</b>
+      <span>${md(T)}（${wdOf(T)}）${over?` · 含逾期 ${over}`:''}</span></div>
+    ${show.map(x=>{
+      const late=x.c.due<T,dd=late?diff(x.c.due,T):0;
+      return `<div class="td-row ${late?'late':''}">
+        <button class="box" data-act="tdone" data-s="${x.si}" data-m="${x.mi}" data-c="${x.ci}" aria-label="完成"></button>
+        <span class="td-t">${esc(x.s.n)}<span class="td-m"> ${esc(x.mat)}</span> ${esc(x.c.t)}${x.c.lv?` <b class="lv${x.c.lv}">${LVS[x.c.lv]}</b>`:''}</span>
+        <span class="td-d">${late?`逾期${dd}天`:'今天'}</span></div>`}).join('')}
+    ${items.length>12?`<p class="note">還有 ${items.length-12} 格未列出，往下看明細。</p>`:''}`;
+}
+document.getElementById('today').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-act="tdone"]');if(!b)return;
+  snap();
+  const c=S.subs[+b.dataset.s].cols[S.mats[+b.dataset.m].id].cells[+b.dataset.c];
+  c.done=true;c.at=c.at||today();refresh();
+});
 
 /* ── 總覽 ── */
 function renderOv(){
@@ -357,7 +631,7 @@ function renderWeeks(){
   const plan=Array(S.nw+1).fill(0),act=Array(S.nw+1).fill(0);
   allCells().forEach(c=>{
     if(c.w>=1&&c.w<=S.nw)plan[c.w]++;
-    if(c.done){const w=c.at?weekOf(c.at):c.w;if(w>=1&&w<=S.nw)act[w]++}
+    if(c.done){const w=c.at?weekClamp(c.at):c.w;if(w>=1&&w<=S.nw)act[w]++}
   });
   const max=Math.max(1,...plan.slice(1),...act.slice(1)),cw=curWeek();let h='';
   for(let i=1;i<=S.nw;i++)h+=`<div class="wrow ${i===cw?'now':''}">
@@ -366,6 +640,61 @@ function renderWeeks(){
     <div class="wb act"><em>實際 ${act[i]}</em><div class="track"><span style="width:${act[i]/max*100}%"></span></div></div>
     </div></div>`;
   document.getElementById('weeks').innerHTML=h;
+}
+
+/* ── 累積折線（預計 vs 實際 S 曲線）── */
+function renderCurve(){
+  const box=document.getElementById('curve');
+  const plan=Array(S.nw+1).fill(0),act=Array(S.nw+1).fill(0);
+  let total=0;
+  allCells().forEach(c=>{total++;
+    if(c.w>=1&&c.w<=S.nw)plan[c.w]++;
+    if(c.done){const w=c.at?weekClamp(c.at):c.w;if(w>=1&&w<=S.nw)act[w]++}});
+  if(!total){box.innerHTML='';return}
+  const cw=curWeek(),cp=[],ca=[];let a=0,b=0;
+  for(let i=1;i<=S.nw;i++){a+=plan[i];cp.push(a);b+=act[i];ca.push(b)}
+  const max=Math.max(1,total),W=300,H=118,L=26,R=6,Tp=8,B=18;
+  const px=i=>L+(S.nw<2?0:i*(W-L-R)/(S.nw-1));
+  const py=v=>Tp+(1-v/max)*(H-Tp-B);
+  const line=arr=>arr.map((v,i)=>`${px(i).toFixed(1)},${py(v).toFixed(1)}`).join(' ');
+  const upto=cw?Math.min(cw,S.nw):0;
+  box.innerHTML=`<div class="td-h"><b>累積曲線</b><span>共 ${total} 格</span></div>
+  <svg viewBox="0 0 ${W} ${H}" class="curve" preserveAspectRatio="none" role="img" aria-label="累積進度曲線">
+    <line x1="${L}" y1="${py(max)}" x2="${W-R}" y2="${py(max)}" class="ax"/>
+    <line x1="${L}" y1="${py(0)}" x2="${W-R}" y2="${py(0)}" class="ax"/>
+    <text x="2" y="${py(max)+3}" class="axt">${max}</text><text x="2" y="${py(0)+3}" class="axt">0</text>
+    ${cw?`<line x1="${px(upto-1)}" y1="${Tp}" x2="${px(upto-1)}" y2="${py(0)}" class="now"/>`:''}
+    <polyline points="${line(cp)}" class="cp"/>
+    <polyline points="${line(ca.slice(0,upto||ca.length))}" class="ca"/>
+    ${ca.slice(0,upto||ca.length).map((v,i)=>`<circle cx="${px(i)}" cy="${py(v)}" r="2.2" class="cd"/>`).join('')}
+    ${[1,S.nw].map(i=>`<text x="${px(i-1)}" y="${H-5}" class="axt" text-anchor="${i===1?'start':'end'}">W${i}</text>`).join('')}
+  </svg>
+  <div class="lg"><span><i class="p"></i>預計累積</span><span><i class="a"></i>實際累積</span>${cw?`<span><i class="n"></i>本週 W${cw}</span>`:''}</div>`;
+}
+
+/* ── 跨頁籤比較 ── */
+function planStat(d){
+  const cells=[];(d.subs||[]).forEach(s=>Object.values(s.cols||{}).forEach(c=>(c.cells||[]).forEach(x=>cells.push(x))));
+  const total=cells.length,done=cells.filter(c=>c.done).length;
+  const timed=cells.filter(c=>c.done&&c.at&&c.due);
+  const ontime=timed.filter(c=>c.at<=c.due).length;
+  const lateOnes=timed.filter(c=>c.at>c.due);
+  const avg=lateOnes.length?Math.round(lateOnes.reduce((a,c)=>a+Math.round((new Date(c.at+'T12:00:00')-new Date(c.due+'T12:00:00'))/86400000),0)/lateOnes.length*10)/10:0;
+  return {total,done,pc:total?Math.round(done/total*100):0,
+    ontime:timed.length?Math.round(ontime/timed.length*100):null,avg};
+}
+function renderCmp(){
+  const box=document.getElementById('cmp');
+  const rows=DB.plans.map(p=>({name:p.name,cur:p.id===DB.cur,...planStat(p.data)})).filter(r=>r.total);
+  if(rows.length<2){box.innerHTML='';return}
+  box.innerHTML=`<div class="td-h"><b>跨次比較</b><span>${rows.length} 個頁籤</span></div>
+  <div class="rep"><div class="rh"><span>頁籤</span><span>格數</span><span>完成率</span><span>準時率</span><span>平均遲</span></div>
+  ${rows.map(r=>`<div class="rr ${r.cur?'cur':''}">
+    <span class="s">${esc(r.name)}</span><span>${r.done}/${r.total}</span>
+    <span class="v ${r.pc>=100?'ok':(r.pc>=70?'mid':'bad')}">${r.pc}%</span>
+    <span class="v ${r.ontime===null?'':(r.ontime>=80?'ok':(r.ontime>=50?'mid':'bad'))}">${r.ontime===null?'—':r.ontime+'%'}</span>
+    <span>${r.avg?r.avg+'天':'—'}</span></div>`).join('')}</div>
+  <p class="note">準時率＝完成日沒有晚於預計日的比例，是最能看出「執行力有沒有進步」的一項。</p>`;
 }
 
 /* ── 分析報告 ── */
@@ -411,6 +740,15 @@ function renderRep(){
   if(most&&most.overdue)h2+=`<div class="verdict sub">逾期最多：<b>${most.n}</b> ${most.overdue} 格未做完；`+
     (worst&&worst.rate!==null?`執行率最低：<b>${worst.n}</b> ${worst.rate}%`:'')+`</div>`;
   if(st.all.noplan)h2+=`<div class="verdict sub">還有 ${st.all.noplan} 格沒填預計日，不會被列入執行率計算。</div>`;
+  // 難度分析：標記過難度的格子，看哪一級最容易被拖
+  const byLv=[0,1,2].map(l=>{
+    const cs=allCells().filter(c=>(c.lv||0)===l);
+    const late=cs.filter(c=>c.done&&c.at&&c.due&&c.at>c.due);
+    const od=cs.filter(c=>!c.done&&c.due&&c.due<today()).length;
+    return {l,n:cs.length,od,avg:late.length?Math.round(late.reduce((a,c)=>a+diff(c.due,c.at),0)/late.length*10)/10:0};
+  });
+  if(byLv[1].n+byLv[2].n)h2+=`<div class="verdict sub">難度分析：`+
+    byLv.filter(x=>x.n).map(x=>`${LVN[x.l]} ${x.n} 格${x.od?`（逾期 ${x.od}）`:''}${x.avg?`，平均遲 ${x.avg} 天`:''}`).join('｜')+`</div>`;
 
   h2+=`<div class="rep"><div class="rh"><span>科目</span><span>完成</span><span>應完成</span><span>執行率</span><span>逾期</span><span>平均遲</span></div>`;
   st.rows.forEach(r=>{
@@ -430,13 +768,13 @@ function renderRep(){
   document.getElementById('rep').innerHTML=h2;
 }
 document.getElementById('copyrep').onclick=()=>{
-  const st=stats();if(!st.all.total){alert('還沒有資料');return}
+  const st=stats();if(!st.all.total){toast('還沒有資料');return}
   let t=`${S.title||'讀書進度格'}｜${curPlan().name}　分析報告 ${md(today())}\n`;
   t+=`整體 ${st.all.done}/${st.all.total} 格（${Math.round(st.all.done/st.all.total*100)}%）　每週平均 ${st.pace} 格\n`;
   if(st.leftW!==null&&st.needW!==null)t+=`剩 ${st.left} 格需約 ${st.needW} 週，距考試 ${st.leftW} 週\n`;
   t+=`\n科目｜完成｜應完成｜執行率｜逾期\n`;
   st.rows.forEach(r=>t+=`${r.n}　${r.done}/${r.total}　${r.due}　${r.rate===null?'—':r.rate+'%'}　${r.overdue||0}\n`);
-  navigator.clipboard?.writeText(t).then(()=>alert('報告已複製'),()=>prompt('手動複製：',t));
+  copyText(t,'報告已複製');
 };
 
 /* ── 科目明細 ── */
@@ -446,9 +784,9 @@ function renderSubs(){
     const g=GROUP[s.n]||'其他';if(g!==lastG){h+=`<div class="gh">${g}</div>`;lastG=g}
     const cells=S.mats.flatMap(m=>s.cols[m.id]?.cells||[]);
     const t=cells.length,d=cells.filter(c=>c.done).length,pc=t?Math.round(d/t*100):0;
-    if(!t){h+=`<details class="sub" data-si="${si}"><summary><span class="sname">${s.n}</span>
+    if(!t){h+=`<details class="sub" data-si="${si}" data-sn="${esc(s.n)}"><summary><span class="sname">${s.n}</span>
       <span class="sstat">未填範圍</span></summary></details>`;return}
-    h+=`<details class="sub" data-si="${si}" ${d<t?'open':''}><summary>
+    h+=`<details class="sub" data-si="${si}" data-sn="${esc(s.n)}" ${d<t?'open':''}><summary>
       <span class="sname">${s.n}</span>
       <span class="sstat">${d}/${t} 格<div class="minibar"><span style="width:${pc}%"></span></div></span>
       </summary><div class="sbody">${S.mats.map((m,mi)=>{
@@ -457,16 +795,18 @@ function renderSubs(){
         return `<div class="mat" id="sec-${si}-${mi}"><div class="mat-h">
           <span class="mn">${s.n}・${esc(colName(s,mi))}</span><span class="c">${dn}/${col.cells.length}</span>
           <button class="tiny" data-act="spread" data-s="${si}" data-m="${mi}">分週</button>
+          <button class="tiny" data-act="batch" data-s="${si}" data-m="${mi}">批次</button>
           <button class="tiny ${S.edit?'on':''}" data-act="toggleedit">${S.edit?'✓ 完成':'✎ 刪格'}</button>
           <button class="tiny" data-act="cleardue" data-s="${si}" data-m="${mi}">清預計</button>
           <button class="tiny" data-act="clearfin" data-s="${si}" data-m="${mi}">清完成</button>
           <button class="tiny" data-act="top">↑ 總表</button></div>
-          <div class="rowhead ${S.edit?'edit':''}"><span></span><span>範圍</span><span>週</span><span>預計</span><span>完成</span>${S.edit?'<span>刪</span>':''}</div>
+          <div class="rowhead ${S.edit?'edit':''}"><span></span><span>範圍</span><span>難</span><span>週</span><span>預計</span><span>完成</span>${S.edit?'<span>刪</span>':''}</div>
           <div class="rows ${S.edit?'edit':''}">${col.cells.map((c,ci)=>{
             const over=!c.done&&c.due&&c.due<today();
             return `<div class="crow ${c.done?'done':''} ${over?'over':''}">
               <button class="box ${c.done?'on':''}" data-act="toggle" data-s="${si}" data-m="${mi}" data-c="${ci}" aria-label="完成"></button>
               <input class="cn" value="${esc(c.t)}" data-act="rename" data-s="${si}" data-m="${mi}" data-c="${ci}" placeholder="範圍名稱">
+              <button class="lvb lv${c.lv||0}" data-act="lv" data-s="${si}" data-m="${mi}" data-c="${ci}" title="${LVN[c.lv||0]}">${LVS[c.lv||0]||'·'}</button>
               <select class="wk" data-act="week" data-s="${si}" data-m="${mi}" data-c="${ci}">
                 <option value="0" ${!c.w?'selected':''}>—</option>
                 ${Array.from({length:S.nw},(_,i)=>`<option value="${i+1}" ${c.w===i+1?'selected':''}>W${i+1}</option>`).join('')}
@@ -483,24 +823,46 @@ function renderSubs(){
 
 /* ── 事件 ── */
 function refresh(){persist();const y=window.scrollY;
-  const op=[...document.querySelectorAll('details.sub')].map(d=>d.open);
-  renderTabs();renderOv();renderMx();renderWeeks();renderRep();renderSubs();
-  [...document.querySelectorAll('details.sub')].forEach((d,i)=>{if(op[i]!==undefined)d.open=op[i]});
+  const op={};document.querySelectorAll('#subs details.sub').forEach(d=>{op[d.dataset.sn]=d.open});
+  renderTabs();renderOv();renderToday();renderMx();renderWeeks();renderCurve();renderRep();renderCmp();renderSubs();
+  document.querySelectorAll('#subs details.sub').forEach(d=>{
+    if(op[d.dataset.sn]!==undefined)d.open=op[d.dataset.sn]});
   window.scrollTo(0,y);}
+function refreshNoMx(){                      // 不重繪總表，避免打字中失焦
+  persist();
+  const op={};document.querySelectorAll('#subs details.sub').forEach(d=>{op[d.dataset.sn]=d.open});
+  renderTabs();renderOv();renderToday();renderWeeks();renderCurve();renderRep();renderCmp();renderSubs();
+  document.querySelectorAll('#subs details.sub').forEach(d=>{
+    if(op[d.dataset.sn]!==undefined)d.open=op[d.dataset.sn]});
+}
+function updateCellCount(input){             // 只更新那一格的格數標示
+  const td=input.closest('td');if(!td)return;
+  const s=S.subs[+input.dataset.s],col=s.cols[S.mats[+input.dataset.m].id];
+  const n=col.cells.length,d=col.cells.filter(c=>c.done).length;
+  td.classList.toggle('filled',!!col.raw);
+  let b=td.querySelector('.cnt');
+  if(!n){if(b)b.remove();return}
+  if(!b){b=document.createElement('button');b.className='cnt jump';b.dataset.act='jump';
+    b.dataset.s=input.dataset.s;b.dataset.m=input.dataset.m;td.appendChild(b)}
+  b.innerHTML=`<b>${d}/${n}</b> 格 ↓ 維護日期`;
+}
 
 document.getElementById('mx').addEventListener('change',e=>{
   const el=e.target.closest('[data-act]');if(!el)return;
   snap();
   if(el.dataset.act==='raw'){
-    const s=S.subs[+el.dataset.s],m=S.mats[+el.dataset.m];
-    s.cols[m.id].raw=el.value;sync(s.cols[m.id]);refresh();}
+    const s=S.subs[+el.dataset.s],m=S.mats[+el.dataset.m],col=s.cols[m.id];
+    col.raw=el.value;sync(col);
+    if(col.cells.length>80&&!col._warned){col._warned=1;
+      toast(`${s.n} 展開成 ${col.cells.length} 格，會不會太細？`)}
+    refreshNoMx();updateCellCount(el);}
   if(el.dataset.act==='colname'){
     S.subs[+el.dataset.s].cols[S.mats[+el.dataset.m].id].name=el.value;persist();renderSubs()}
 });
 const UNDO=[];
 function snap(){UNDO.push(JSON.stringify(S));if(UNDO.length>30)UNDO.shift()}
 function undoLast(){
-  if(!UNDO.length){alert('沒有可以復原的動作');return}
+  if(!UNDO.length){toast('沒有可以復原的動作');return}
   useS(JSON.parse(UNDO.pop()));renderSetup();refresh();
 }
 function moveSub(i,d){const j=i+d;if(j<0||j>=S.subs.length)return;
@@ -509,7 +871,7 @@ function moveMat(si,mi,d){const j=mi+d;if(j<0||j>=S.mats.length)return;
   const s=S.subs[si],a=S.mats[mi].id,b=S.mats[j].id;
   const t=s.cols[a];s.cols[a]=s.cols[b];s.cols[b]=t;refresh()}
 
-document.getElementById('mx').addEventListener('click',e=>{
+document.getElementById('mx').addEventListener('click',async e=>{
   const b=e.target.closest('button[data-act]');if(!b)return;
   const A=b.dataset.act;
   if(A!=='jump')snap();
@@ -531,32 +893,42 @@ document.getElementById('mx').addEventListener('click',e=>{
   if(b.dataset.act==='delcol'){
     const mi=+b.dataset.m,m=S.mats[mi];
     const n=S.subs.reduce((a,s)=>a+(s.cols[m.id]?.cells.length||0),0);
-    if(confirm(`刪除「教材 ${mi+1}」整欄（含各科共 ${n} 格）？`)){
+    if(await yesno('刪除整欄',`刪除「教材 ${mi+1}」這一欄，含各科共 ${n} 格。\n這個動作會清掉所有科目在這一欄的資料。`,'刪除')){
       S.mats.splice(+b.dataset.m,1);S.subs.forEach(s=>delete s.cols[m.id]);refresh()}}
 });
-document.getElementById('subs').addEventListener('click',e=>{
+document.getElementById('subs').addEventListener('click',async e=>{
   const b=e.target.closest('button[data-act]');if(!b)return;
   if(b.dataset.act!=='top')snap();
   if(b.dataset.act==='top'){document.getElementById('mx').scrollIntoView({behavior:'smooth',block:'start'});return}
   if(b.dataset.act==='toggleedit'){S.edit=!S.edit;renderSetup();refresh();return}
   const s=S.subs[+b.dataset.s],col=s&&s.cols[S.mats[+b.dataset.m].id];if(!col)return;
   if(b.dataset.act==='toggle'){const c=col.cells[+b.dataset.c];c.done=!c.done;c.at=c.done?(c.at||today()):null;refresh()}
+  if(b.dataset.act==='lv'){const c=col.cells[+b.dataset.c];c.lv=((c.lv||0)+1)%3;refresh();return}
   if(b.dataset.act==='cdue'){const c=col.cells[+b.dataset.c];c.due='';c.w=0;refresh();return}
   if(b.dataset.act==='cfin'){const c=col.cells[+b.dataset.c];c.at=null;c.done=false;refresh();return}
   if(b.dataset.act==='delcell'){
     col.cells.splice(+b.dataset.c,1);
     col.raw=col.cells.map(x=>x.t).join(',');   // 同步回總表
     refresh();return}
+  if(b.dataset.act==='batch'){
+    const r=await ask('批次指派週次',`1-${col.cells.length}:1`,
+      `共 ${col.cells.length} 格。格式「起-迄:週」\n例如 3-6:2 ＝ 第3到第6格排到第2週`);
+    if(!r)return;
+    const mm=r.match(/(\d+)\s*-\s*(\d+)\s*[:：]\s*(\d+)/);
+    if(!mm){toast('格式不對，請用 3-6:2 的寫法');return}
+    const a1=Math.max(1,+mm[1]),a2=Math.min(col.cells.length,+mm[2]),w=Math.min(S.nw,Math.max(1,+mm[3]));
+    for(let i=a1-1;i<a2;i++){if(col.cells[i]){col.cells[i].w=w;col.cells[i].due=wStart(w)}}
+    refresh();return}
   if(b.dataset.act==='cleardue'){
-    if(confirm(`清除這個教材 ${col.cells.length} 格的週次與預計日？`)){
+    if(await yesno('清除預計',`清除這個教材 ${col.cells.length} 格的週次與預計日？\n完成紀錄會保留。`,'清除')){
       col.cells.forEach(c=>{c.due='';c.w=0});refresh()}
     return}
   if(b.dataset.act==='clearfin'){
-    if(confirm(`清除這個教材 ${col.cells.length} 格的完成勾選與完成日？`)){
+    if(await yesno('清除完成',`清除這個教材 ${col.cells.length} 格的勾選與完成日？\n範圍和預計日會保留。`,'清除')){
       col.cells.forEach(c=>{c.done=false;c.at=null});refresh()}
     return}
   if(b.dataset.act==='spread'){
-    const r=prompt(`把 ${col.cells.length} 格平均分到哪幾週？格式：起-迄`,`1-${S.nw}`);
+    const r=await ask('平均分週',`1-${S.nw}`,`把 ${col.cells.length} 格平均攤到哪幾週？\n格式「起-迄」，例如 1-5`);
     if(!r)return;const mm=r.match(/(\d+)\s*-\s*(\d+)/);if(!mm)return;
     const a1=Math.max(1,+mm[1]),a2=Math.min(S.nw,+mm[2]);if(a2<a1)return;
     const span=a2-a1+1;
@@ -579,20 +951,30 @@ document.getElementById('subs').addEventListener('change',e=>{
 });
 
 const $=id=>document.getElementById(id);
+let tabMenu=false;
 function renderTabs(){
   const done=p=>{let t=0,d=0;(p.data.subs||[]).forEach(s=>Object.values(s.cols||{}).forEach(c=>
     (c.cells||[]).forEach(x=>{t++;if(x.done)d++})));return t?Math.round(d/t*100):0};
   $('tabs').innerHTML=DB.plans.map(p=>
     `<button class="tab ${p.id===DB.cur?'on':''}" data-p="${p.id}">${esc(p.name)}<span style="opacity:.6"> ${done(p)}%</span></button>`).join('')
     +`<button class="tab util" data-act="newplan">＋ 新頁籤</button>`
-    +`<button class="tab util" data-act="mngplan">⋯</button>`;
+    +`<button class="tab util ${tabMenu?'on':''}" data-act="mngplan">⋯</button>`;
+  $('tabmenu').innerHTML=tabMenu?
+    `<span class="tm-lab">「${esc(curPlan().name)}」</span>
+     <button class="tiny" data-act="rename">改名</button>
+     <button class="tiny" data-act="dup">複製一份</button>
+     <button class="tiny danger" data-act="delplan">刪除</button>
+     <button class="tiny" data-act="closemenu">取消</button>`:'';
 }
-function switchPlan(id){if(!DB.plans.some(x=>x.id===id))return;DB.cur=id;S=curPlan().data;normalize();persist();
+function switchPlan(id){if(!DB.plans.some(x=>x.id===id))return;
+  UNDO.length=0;tabMenu=false;                     // 復原堆疊屬於單一頁籤，切換時必須清空
+  DB.cur=id;S=curPlan().data;normalize();persist();
   renderSetup();refresh();window.scrollTo({top:0,behavior:'smooth'})}
-function newPlan(){
-  const name=prompt('新頁籤名稱\n（例：8上第1次、8下第2次、9上模擬考、會考總複習）','');
+async function newPlan(){
+  const name=await ask('新頁籤名稱','','例：8上第1次、8下第2次、9上模擬考、會考總複習','輸入名稱');
   if(name===null)return;
-  const keep=DB.plans.length&&confirm('沿用目前的科目順序與教材名稱？\n（範圍、日期、進度都不會帶過去）');
+  const keep=DB.plans.length&&await yesno('沿用現有架構？',
+    '把目前的科目順序與教材名稱複製過去，範圍、日期、進度都不會帶過去。','沿用');
   let data;
   if(keep){
     data=JSON.parse(JSON.stringify(S));
@@ -601,32 +983,33 @@ function newPlan(){
   }else{data=seed();data.tag=name.trim()}
   const id=uid();DB.plans.push({id,name:name.trim()||`計畫${DB.plans.length+1}`,data});switchPlan(id);
 }
-function mngPlan(){
+async function planAction(a){
   const p=curPlan();
-  const a=prompt(`「${p.name}」要做什麼？\n1＝改名　2＝複製一份　3＝刪除`,'1');
-  if(a===null)return;
-  if(a.trim()==='1'){const v=prompt('頁籤名稱',p.name);if(v!==null&&v.trim()){p.name=v.trim();persist();renderTabs()}}
-  else if(a.trim()==='2'){const id=uid();
-    DB.plans.push({id,name:p.name+' 複本',data:JSON.parse(JSON.stringify(p.data))});switchPlan(id)}
-  else if(a.trim()==='3'){
-    if(DB.plans.length<2){alert('至少要保留一個頁籤');return}
-    if(confirm(`刪除「${p.name}」的所有資料？無法復原。`)){
-      DB.plans=DB.plans.filter(x=>x.id!==p.id);switchPlan(DB.plans[0].id)}}
+  if(a==='rename'){const v=await ask('頁籤名稱',p.name);
+    if(v!==null&&v.trim()){p.name=v.trim();persist();renderTabs();toast('已改名')}return}
+  if(a==='dup'){const id=uid();
+    DB.plans.push({id,name:p.name+' 複本',data:JSON.parse(JSON.stringify(p.data))});switchPlan(id);return}
+  if(a==='delplan'){
+    if(DB.plans.length<2){toast('至少要保留一個頁籤');return}
+    if(await yesno('刪除頁籤',`「${p.name}」的所有資料都會消失，無法復原。\n建議先下載備份。`,'刪除')){
+      DB.plans=DB.plans.filter(x=>x.id!==p.id);switchPlan(DB.plans[0].id)}return}
+  if(a==='closemenu'){tabMenu=false;renderTabs()}
 }
 $('tabs').onclick=e=>{
   const b=e.target.closest('button');if(!b)return;
   if(b.dataset.act==='newplan')return newPlan();
-  if(b.dataset.act==='mngplan')return mngPlan();
+  if(b.dataset.act==='mngplan'){tabMenu=!tabMenu;return renderTabs()}
   if(b.dataset.p&&b.dataset.p!==DB.cur)switchPlan(b.dataset.p);
 };
+$('tabmenu').onclick=e=>{const b=e.target.closest('button[data-act]');if(b)planAction(b.dataset.act)};
 function renderTitle(){
   $('ttl').innerHTML=`<em>${esc(S.title||'讀書進度格')}</em>`;
   $('tag').textContent=S.tag||'';
   document.title=S.title||'讀書進度格';
 }
-$('ttl').onclick=()=>{const v=prompt('標題',S.title||'讀書進度格');
+$('ttl').onclick=async()=>{const v=await ask('標題',S.title||'讀書進度格');
   if(v!==null){snap();S.title=v.trim()||'讀書進度格';persist();renderTitle()}};
-$('tag').onclick=()=>{const v=prompt('副標（例：八年級上・第一次段考、國三總複習）',S.tag||'');
+$('tag').onclick=async()=>{const v=await ask('副標',S.tag||'','例：八年級上・第一次段考、國三總複習（留白就不顯示）');
   if(v!==null){snap();S.tag=v.trim();persist();renderTitle()}};
 function renderSetup(){renderTitle();$('start').value=S.start;$('exam').value=S.exam||'';$('nw').value=S.nw;
   $('edit').textContent='編輯模式：'+(S.edit?'開':'關');$('edit').classList.toggle('ghost',!S.edit)}
@@ -638,15 +1021,16 @@ $('nw').onchange=e=>{S.nw=Math.min(20,Math.max(1,+e.target.value||1));refresh()}
 $('wplus').onclick=()=>{S.nw=Math.min(20,S.nw+1);renderSetup();refresh()};
 $('wminus').onclick=()=>{S.nw=Math.max(1,S.nw-1);renderSetup();refresh()};
 $('undo').onclick=undoLast;
-$('clearall').onclick=()=>{
+$('clearall').onclick=async()=>{
   const n=allCells().filter(c=>c.done||c.at).length;
-  if(!n){alert('目前沒有完成紀錄');return}
-  if(confirm(`清除全部 ${n} 格的完成勾選與完成日？（範圍與預計日保留）`)){
+  if(!n){toast('目前沒有完成紀錄');return}
+  if(await yesno('清除全部完成紀錄',`共 ${n} 格的勾選與完成日會被清掉。\n範圍與預計日保留。`,'清除')){
     snap();allCells().forEach(c=>{c.done=false;c.at=null});refresh()}
 };
 $('edit').onclick=()=>{S.edit=!S.edit;renderSetup();refresh()};
-$('reset').onclick=()=>{if(confirm(`清空「${curPlan().name}」這個頁籤的全部資料？其他頁籤不受影響。`)){
-  snap();useS(seed());renderSetup();refresh()}};
+$('reset').onclick=async()=>{
+  if(await yesno('清空重來',`「${curPlan().name}」這個頁籤的全部資料會被清空。\n其他頁籤不受影響。`,'清空')){
+    snap();useS(seed());renderSetup();refresh();toast('已清空')}};
 $('backup').onclick=()=>{
   const blob=new Blob([JSON.stringify(DB)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
@@ -657,22 +1041,55 @@ $('restore').onclick=()=>$('rfile').click();
 $('rfile').onchange=e=>{
   const f=e.target.files&&e.target.files[0];if(!f)return;
   const r=new FileReader();
-  r.onload=()=>{
+  r.onload=async()=>{
     try{
       const o=JSON.parse(r.result);
       if(o&&Array.isArray(o.plans)){
-        if(confirm(`這個備份含 ${o.plans.length} 個頁籤，要覆蓋全部資料嗎？`)){
+        if(await yesno('還原備份',`這個備份含 ${o.plans.length} 個頁籤，會覆蓋目前所有資料。`,'覆蓋還原')){
           DB=o;if(!DB.plans.some(x=>x.id===DB.cur))DB.cur=DB.plans[0].id;
-          S=curPlan().data;normalize();persist();renderSetup();refresh();alert('已還原')}
+          S=curPlan().data;normalize();persist();renderSetup();refresh();toast('已還原')}
       }else if(o&&Array.isArray(o.subs)){
-        if(confirm(`把這個備份還原成新頁籤？目前資料不會被覆蓋。`)){
-          const id=uid();DB.plans.push({id,name:o.tag||'還原'+md(today()),data:o});switchPlan(id);alert('已還原成新頁籤')}
+        if(await yesno('還原成新頁籤','這是舊版單一計畫的備份，會新增成一個頁籤，目前資料不會被覆蓋。','還原')){
+          const id=uid();DB.plans.push({id,name:o.tag||'還原'+md(today()),data:o});switchPlan(id);toast('已還原成新頁籤')}
       }else throw new Error('bad');
-    }catch(err){alert('檔案格式不正確，請選用本工具下載的備份檔')}
+    }catch(err){say('無法讀取','這個檔案不是本工具下載的備份檔，或內容已損壞。')}
   };
   r.readAsText(f);e.target.value='';
 };
-$('print').onclick=()=>{document.querySelectorAll('details').forEach(d=>d.open=true);window.print()};
+document.getElementById('ics').onclick=async()=>{
+  const items=locCells().filter(x=>x.c.due&&!x.c.done);
+  if(!items.length){say('沒有可匯出的項目','要先在明細區填「預計日」，而且尚未完成的格子才會匯出。');return}
+  if(!await yesno('匯出行事曆',`把 ${items.length} 個未完成的預計日做成 .ics 檔。\n每格建立一個整天事件，前一晚 8 點提醒。`,'匯出'))return;
+  const D8=s=>s.replace(/-/g,'');
+  const esc2=s=>String(s).replace(/([,;\\])/g,'\\$1').replace(/\n/g,'\\n');
+  const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//study-progress//TW//ZH','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+    'X-WR-CALNAME:'+esc2((S.title||'讀書進度')+'／'+curPlan().name)];
+  items.forEach((x,i)=>{
+    L.push('BEGIN:VEVENT',
+      `UID:sp-${DB.cur}-${i}-${D8(x.c.due)}@study-progress`,
+      `DTSTAMP:${D8(today())}T000000Z`,
+      `DTSTART;VALUE=DATE:${D8(x.c.due)}`,
+      `DTEND;VALUE=DATE:${D8(addD(x.c.due,1))}`,
+      `SUMMARY:${esc2(`📘 ${x.s.n}・${x.mat} ${x.c.t}`)}`,
+      `DESCRIPTION:${esc2(`${curPlan().name}　第 ${x.c.w||'-'} 週進度${x.c.lv?`　難度：${LVN[x.c.lv]}`:''}`)}`,
+      'BEGIN:VALARM','TRIGGER:-PT16H','ACTION:DISPLAY','DESCRIPTION:讀書進度提醒','END:VALARM',
+      'END:VEVENT');
+  });
+  L.push('END:VCALENDAR');
+  const blob=new Blob([L.join('\r\n')],{type:'text/calendar;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`${(curPlan().name||'讀書進度').replace(/[\\/:*?"<>|]/g,'')}.ics`;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+};
+
+document.querySelectorAll('[data-print]').forEach(b=>b.onclick=()=>{
+  const scope=b.dataset.print;
+  document.querySelectorAll('#subs details.sub').forEach(d=>d.open=true);
+  document.body.classList.add('printing','print-'+scope);
+  const clean=()=>document.body.classList.remove('printing','print-mx','print-detail','print-rep','print-all');
+  window.onafterprint=clean;setTimeout(clean,3000);
+  window.print();
+});
 $('copy').onclick=()=>{
   let t=`${S.title||'讀書進度格'}｜${curPlan().name}（${md(S.start)} 起${S.exam?'，考試 '+md(S.exam):''}）\n`;
   const c=allCells();t+=`完成 ${c.filter(x=>x.done).length}/${c.length} 格\n`;
@@ -681,7 +1098,7 @@ $('copy').onclick=()=>{
     S.mats.forEach((m,mi)=>{const col=s.cols[m.id];if(!col||!col.cells.length)return;
       t+=`  ${colName(s,mi)}\n`;
       col.cells.forEach(x=>{t+=`    ${x.done?'■':'□'} ${x.t}${x.w?` W${x.w}`:''}　預計 ${x.due?md(x.due):'—'}　完成 ${x.at?md(x.at):'—'}\n`})})});
-  navigator.clipboard?.writeText(t).then(()=>alert('已複製'),()=>prompt('手動複製：',t));
+  copyText(t,'已複製，可貼到 LINE');
 };
 renderSetup();refresh();
 if(!allCells().length)$('setup').open=true;
